@@ -1,75 +1,95 @@
-## Ruby Appium Example Scripts
+BDD Automation Test Framework for iOS supporting Appium , Cucumber, Ruby
 
-These demonstration scripts allow you to run an automated Appium tests on Sauce Labs platforms.
+## 1.0 Prerequisites
+* You're using a MAC. Essential for iOS testing.
+* Xcode installed
+* JAVA 8 JDK
 
-> ###### Disclaimer:
-> The code in these scripts is provided on an "AS-IS" basis without warranty of any kind, either express or implied, including without limitation any implied warranties of condition, uninterrupted use, merchantability, fitness for a particular purpose, or non-infringement. These scripts are provided for educational and demonstration purposes only, and should not be used in production. Issues regarding these scripts should be submitted through GitHub. These scripts are maintained by the Technical Services team at Sauce Labs.
->
-> Some examples in this repository, such as `appium-examples` and `headless-examples`, may require a different account tier beyond free trial. Please contact the [Sauce Labs Sales Team](https://saucelabs.com/contact) for support and information.
 
-<br />
+## 2.0 Setup your environment
+Note: This assumes you're starting from scratch on a new MAC. Steps may/may not be required or may need to be altered if you already have a development environment set up.
 
-### Prerequisites
+### 2.1 Install brew
 
-* Install [ruby](https://www.ruby-lang.org/en/documentation/installation/)
-* Install [rake](http://docs.seattlerb.org/rake/)
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew doctor
 
-### Environment Setup
+### 2.2 Install ruby 2.6.3
+Note: You can install ruby 2.6.3 however you like, as long as that is the version of ruby that is used when running the tests. One of the most common methods is to use RVM, however the method shown here works just as well.
 
-1. Set Global Dependencies
-    * Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
-    * Or Install Ruby with [Homebrew](http://brew.sh/)
-    ```
-    $ brew install ruby
-    ```
-    * Install [Rake](http://docs.seattlerb.org/rake/)
-    ```
-    $ gem install rake
-    ```
-    * Install bundler (Sudo may be necessary)
-    ```
-    $ gem install bundler
-    ```
+    brew install chruby
+    brew install ruby-build
+    ruby-build 2.6.3 ~/.rubies/2.6.3
 
-2. Set Sauce Credentials
-    * In the terminal [export your Sauce Labs Credentials as environmental variables](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials):
-    ```
-    $ export SAUCE_USERNAME=<your Sauce Labs username>
-    $ export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
-    ```
-3. Set Project Dependencies
-	* Install packages (Use sudo if necessary)
-	```
-	$ bundle install
-	```
- 
- <br />
- 
-### Running the Tests
+### 2.3 Set up your bash_profile
+Make sure you're in your Home directory
 
-1. Choose and navigate to the desired test framework:
-    * `RSpec`
-    * `Cucumber`
-2. Navigate to the desired directory:
-    * for running tests on emulators and simulators: `emusim`
-    * for running tests on real devices: `rdc`
-3. Navigate to either the `android` or `ios` directory.
-4. Run the following command to run tests in Parallel:
-	```
-	$ rake test_sauce
-	```
-5. Visit the [Sauce Labs Dashboard](https://saucelabs.com/beta/dashboard/) to see the results.
+    cd ~
 
-<br />
+Create your bash profile (unnecessary step if you already have one, check first by running `ls -lA`)
 
-### Advice and Troubleshooting
+    touch .bash_profile
 
-There may be additional latency when using a remote webdriver to run tests on Sauce Labs, therefore timeouts or "Waits" may need to be increased. Please read the following wiki page on [tips regarding explicit waits](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Explicit+Waits)
+Open the bash profile
 
-<br />
+    open .bash_profile
 
-##### More Information
-* [Sauce Labs Documentation](https://wiki.saucelabs.com/)
-* [Appium Documentation](http://appium.io/slate/en/master/)
-* [RSpec Documentation](http://rspec.info/documentation/)
-* [Ruby Documentation](http://ruby-doc.org/)
+Add the following to your bash profile. This will set your terminal to use Ruby 2.6.3 by default.
+
+    source /usr/local/opt/chruby/share/chruby/chruby.sh
+    source /usr/local/opt/chruby/share/chruby/auto.sh
+    chruby 2.6.3
+
+
+Save the file, then completely kill then re-open the Terminal.
+
+Check that the default version is 2.6.3
+
+    ruby -v
+### 2.4 Set up your PATH
+Open your PATH
+
+    sudo pico /etc/paths
+
+
+### 2.5 Install appium
+This will install the command line version of appium. If you want, you can download the GUI version from the appium website (comes in very useful for getting XPATH of elements from iOS apps).
+At the time of writing, the framework and dependencies work with Appium version 1.4.0
+
+    brew install node
+    npm install -g appium@1.5.0
+    npm install wd
+
+### 2.6 The project and dependencies
+Setup your ssh keys: https://help.github.com/articles/generating-ssh-keys/
+
+Clone the framework
+
+    git clone https://github.com/reddynalla9/appium_ios.git
+
+Navigate to the framework directoy
+
+    cd atlas-mobile-auto
+
+Install bundler and the gems the framework is dependent on
+
+    gem install bundler
+    rake dependencies
+
+### 2.7 Potential setup problems
+* Nokogiri - if during the 'bundle install' step in section 2.6, you encounter a problem with xcode and Nokogiri, run the following command `xcode-select --install`
+
+* iOS Simulator - if the simulator asks for your password every time you run a test, run the following command `DevToolsSecurity —enable`
+
+
+
+## 3.0 Running tests
+Prerequisites:
+* Build should be in the directory root, xxx-APP.zip
+
+Tests can be run using the command
+
+bundle exec cucumber -p default --tags @ios
+Those tags were specified in cucumber.yml
+Platform capabilities like version name,platform,app path  were passed in helper.rb
+
