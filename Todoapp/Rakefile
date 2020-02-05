@@ -1,0 +1,35 @@
+def run_tests(deviceName, platformName, platformVersion, app, junit)
+  system("deviceName=\"#{deviceName}\" platformName=\"#{platformName}\" platformVersion=\"#{platformVersion}\" app=\"#{app}\" parallel_cucumber features -n 20")
+end
+
+
+
+task :iPhone_Simulator do
+  run_tests('iPhone 6 Simulator', 'iOS', '112.1', 'https://github.com/saucelabs-training/demo-java/blob/master/appium-example/resources/ios/SauceGuineaPig-sim-debug.app.zip?raw=true', 'junit_reports/iPhone_6_Simulator')
+end
+
+task :iPhone_7_Simulator do
+  run_tests('iPhone 7 Simulator', 'iOS', '12.0', 'https://github.com/saucelabs-training/demo-java/blob/master/appium-example/resources/ios/SauceGuineaPig-sim-debug.app.zip?raw=true', 'junit_reports/iPhone_5s_Simulator')
+end
+
+task :iPad_Air_Simulator do
+  run_tests('iPad Air Simulator', 'iOS', '11.2', 'https://github.com/saucelabs-training/demo-java/blob/master/appium-example/resources/ios/SauceGuineaPig-sim-debug.app.zip?raw=true', 'junit_reports/iPad_Air_Simulator')
+end
+
+task :iPad_Simulator do
+  run_tests('iPad (6th generation) Simulator', 'iOS', '12.0', 'https://github.com/saucelabs-training/demo-java/blob/master/appium-example/resources/ios/SauceGuineaPig-sim-debug.app.zip?raw=true', 'junit_reports/iPad_Simulator')
+end
+
+multitask :test_sauce => [
+    :Andoid_Emulator_Phone_5_1,
+    :Galaxy_S8_Emulator,
+    :Andoid_Emulator_Tablet_5_1,
+    :Galaxy_S6_Emulator,
+    :iPhone_6_Simulator,
+    :iPhone_7_Simulator,
+    :iPad_Air_Simulator,
+    :iPad_Simulator,
+
+] do
+  puts 'Running automation'
+end

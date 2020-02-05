@@ -1,0 +1,4 @@
+#default: -t @ios -f html -o execution_result.html SCREEN_SHOT=false TAB=false --format progress
+default:   SIMULATOR=true     DEVICE=iphone  AppLocation=external  --format progress --format html --out=cukes.html
+
+#tablet: -t ~@wip -f html -o tablet_execution_result.html SCREEN_SHOT=false TAB=true
