@@ -50,7 +50,7 @@ GEM
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     parslet (1.8.2)
-    rake (10.1.0)
+    rake (13.0.1)
     rspec (2.14.0)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -79,7 +79,7 @@ DEPENDENCIES
   appium_lib (= 8.0.0)
   cucumber (= 3.1.0)
   macaddr (= 1.6.1)
-  rake (= 10.1.0)
+  rake (= 13.0.1)
   rspec (= 2.14.0)
   selenium-webdriver
 
